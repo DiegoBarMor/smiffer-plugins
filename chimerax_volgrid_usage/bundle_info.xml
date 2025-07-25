@@ -1,0 +1,43 @@
+
+<BundleInfo name="ChimeraX-SmifferTool"
+	    version="1.0" package="chimerax.smiffertool"
+  	    minSessionVersion="1" maxSessionVersion="1">
+  	    
+    <Author>Volgrid Usage Plugin</Author>
+    <Email>contact@example.com</Email>
+    <URL>https://github.com/example/chimerax-volgrid-usage</URL>
+    
+    <Synopsis>Volgrid usage analysis tool for ChimeraX</Synopsis>
+    <Description>A comprehensive tool for volumetric grid analysis with Smiffer integration, APBS calculations, and advanced visualization capabilities in ChimeraX.</Description>
+    
+    <Categories>
+        <Category name="General"/>
+    </Categories>
+    
+    <Dependencies>
+        <Dependency name="ChimeraX-Core" version="~=1.0"/>
+        <Dependency name="ChimeraX-UI" version="~=1.0"/>
+        <Dependency name="ChimeraX-Atomic" version="~=1.0"/>
+        <Dependency name="ChimeraX-Map" version="~=1.0"/>
+        <Dependency name="numpy" version="~=2.3"/>
+        <Dependency name="scipy" version="~=1.15"/>
+        <Dependency name="matplotlib" version="~=3.10"/>
+        <Dependency name="MDAnalysis" version="~=2.9"/>
+        <Dependency name="h5py" version="~=3.14"/>
+    </Dependencies>
+    
+    <DataFiles>
+    	<DataFile>volgrids-main/*</DataFile>
+    </DataFiles>
+    
+    <Classifiers>
+        <Classifier>Development Status :: 4 - Beta</Classifier>
+        <Classifier>Intended Audience :: Science/Research</Classifier>
+        <Classifier>Programming Language :: Python :: 3</Classifier>
+        <Classifier>Topic :: Scientific/Engineering :: Chemistry</Classifier>
+        <Classifier>Topic :: Scientific/Engineering :: Visualization</Classifier>
+        <ChimeraXClassifier>ChimeraX :: Tool :: SmifferTool ::
+      General :: Volumetric grid analysis with Smiffer and APBS integration</ChimeraXClassifier>
+    </Classifiers>
+    
+</BundleInfo>

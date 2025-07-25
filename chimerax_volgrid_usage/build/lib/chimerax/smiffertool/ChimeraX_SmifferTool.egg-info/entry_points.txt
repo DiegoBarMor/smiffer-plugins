@@ -1,0 +1,2 @@
+[chimerax.bundles]
+chimerax.volgridusage = chimerax.volgridusage:bundle_api

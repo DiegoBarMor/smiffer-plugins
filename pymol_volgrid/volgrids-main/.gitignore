@@ -1,0 +1,7 @@
+desktop.ini
+__pycache__/
+.vscode/
+
+testdata/
+
+build.sh

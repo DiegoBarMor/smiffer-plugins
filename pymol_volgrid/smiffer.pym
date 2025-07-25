@@ -1,0 +1,9 @@
+# PyMOL Plugin: Smiffer Tool
+# Description: A PyMOL plugin for molecular interaction field analysis
+
+from pymol_smiffer_plugin import __init_plugin__, smiffer_gui
+
+def __init_plugin__(app=None):
+    """Initialize the PyMOL plugin"""
+    from pymol_smiffer_plugin import __init_plugin__ as init_func
+    return init_func(app)
