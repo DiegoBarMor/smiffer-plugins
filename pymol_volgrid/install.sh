@@ -12,12 +12,6 @@ if [ ! -f "pymol_smiffer_plugin.py" ]; then
     exit 1
 fi
 
-# Ensure volgrids-main is present
-if [ ! -d "volgrids-main" ]; then
-    echo "Error: volgrids-main directory not found. This directory is required for the plugin to work."
-    exit 1
-fi
-
 # Find PyMOL startup directory
 PYMOL_STARTUP_DIR=""
 
@@ -31,10 +25,10 @@ if [ ! -z "$PYMOL_PATH" ]; then
     # Look for pmg_tk/startup directory
     POSSIBLE_STARTUP_DIRS=(
         "$PYMOL_PATH/../pmg_tk/startup"
-        "$PYMOL_PATH/pmg_tk/startup" 
+        "$PYMOL_PATH/pmg_tk/startup"
         "$(dirname "$PYMOL_PATH")/pmg_tk/startup"
     )
-    
+
     for dir in "${POSSIBLE_STARTUP_DIRS[@]}"; do
         if [ -d "$dir" ]; then
             PYMOL_STARTUP_DIR="$dir"
@@ -53,7 +47,7 @@ if [ -z "$PYMOL_STARTUP_DIR" ]; then
         "/usr/lib/python*/site-packages/pmg_tk/startup"
         "/usr/local/lib/python*/site-packages/pmg_tk/startup"
     )
-    
+
     for pattern in "${SEARCH_PATHS[@]}"; do
         for dir in $pattern; do
             if [ -d "$dir" ]; then
@@ -86,7 +80,8 @@ echo "Installing to: $PLUGIN_DIR"
 
 # Copy plugin files
 cp pymol_smiffer_plugin.py "$PLUGIN_DIR/"
-cp -r volgrids-main "$PLUGIN_DIR/"
+git clone https://github.com/DiegoBarMor/volgrids.git
+mv volgrids "$PLUGIN_DIR/volgrids-main"
 cp __init__.py "$PLUGIN_DIR/"
 
 echo "Plugin installed successfully!"
