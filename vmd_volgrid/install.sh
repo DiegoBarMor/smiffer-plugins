@@ -15,22 +15,10 @@ if [ ! -f "vmd_smiffer.tcl" ]; then
     exit 1
 fi
 
-# Ensure volgrids-main is present
-if [ ! -d "volgrids-main" ]; then
-    echo "Error: volgrids-main directory not found. This directory is required for the plugin to work."
-    exit 1
-fi
-
-# Copy volgrids-main to src if not already there
-if [ ! -d "src/volgrids-main" ]; then
-    echo "Copying volgrids-main to src directory..."
-    cp -r volgrids-main src/
-fi
-
 # Function to find VMD plugin directory
 find_vmd_plugin_dir() {
     local vmd_plugin_dir=""
-    
+
     # Try different common locations
     if [[ -n "$VMDDIR" ]]; then
         vmd_plugin_dir="$VMDDIR/plugins/noarch/tcl"
@@ -49,7 +37,7 @@ find_vmd_plugin_dir() {
         fi
         vmd_plugin_dir="$user_vmd_plugins"
     fi
-    
+
     echo "$vmd_plugin_dir"
 }
 
@@ -57,15 +45,15 @@ find_vmd_plugin_dir() {
 install_plugin() {
     local vmd_plugin_dir="$1"
     local plugin_dir="$vmd_plugin_dir/vmd_smiffer"
-    
+
     echo "Installing to: $plugin_dir"
-    
+
     # Create plugin directory
     if [[ ! -d "$plugin_dir" ]]; then
         mkdir -p "$plugin_dir"
         echo "Created plugin directory: $plugin_dir"
     fi
-    
+
     # Copy plugin files
     local files=("vmd_smiffer.tcl" "pkgIndex.tcl")
     for file in "${files[@]}"; do
@@ -76,21 +64,17 @@ install_plugin() {
             echo "Warning: $file not found in current directory"
         fi
     done
-    
-    # Copy volgrids-main directory
-    if [[ -d "$SCRIPT_DIR/volgrids-main" ]]; then
-        cp -r "$SCRIPT_DIR/volgrids-main" "$plugin_dir/"
-        echo "Copied volgrids-main directory"
-    else
-        echo "Warning: volgrids-main directory not found"
-    fi
-    
+
+    git clone https://github.com/DiegoBarMor/volgrids.git
+    mv volgrids "$plugin_dir/volgrids-main"
+    echo "Moved volgrids-main directory"
+
     # Configure VMD startup script
     configure_vmdrc "$plugin_dir"
-    
+
     echo "Plugin installed successfully!"
     echo "The plugin will be available in VMD after restart."
-    echo "Look for 'Smiffer' in the Extensions menu."
+    echo "Look for 'Smiffer' in the Extensions menu or use 'vmd_smiffer_tk' command to open the GUI"
 }
 
 # Function to configure VMD startup script
@@ -98,7 +82,7 @@ configure_vmdrc() {
     local plugin_dir="$1"
     local vmd_rc="$HOME/.vmdrc"
     local plugin_load_line="lappend auto_path $plugin_dir"
-    
+
     if [[ ! -f "$vmd_rc" ]]; then
         echo "Creating $vmd_rc"
         cat > "$vmd_rc" << EOF
@@ -120,7 +104,7 @@ EOF
             echo "Adding 'menu main on' to existing $vmd_rc"
             # Create a temporary file with the new content
             temp_file=$(mktemp)
-            
+
             # Add menu main on at the beginning (after any existing comments)
             {
                 # Copy existing comments at the top
@@ -132,13 +116,13 @@ EOF
                 # Copy non-comment lines
                 grep -v "^#" "$vmd_rc" 2>/dev/null || true
             } > "$temp_file"
-            
+
             # Replace the original file
             mv "$temp_file" "$vmd_rc"
         else
             echo "'menu main on' already present in $vmd_rc"
         fi
-        
+
         # Check if plugin is already configured
         if ! grep -q "vmd_smiffer" "$vmd_rc"; then
             echo "Adding vmd_smiffer plugin to existing $vmd_rc"
@@ -150,35 +134,36 @@ EOF
             echo "VMD Smiffer plugin already configured in $vmd_rc"
         fi
     fi
-    
+
     echo "VMD startup script configured: $vmd_rc"
 }
 
 # Function to check dependencies
 check_dependencies() {
     echo "Checking dependencies..."
-    
+
     # Check for Python 3
     if ! command -v python3 &> /dev/null; then
         echo "Warning: Python 3 not found. Required for smiffer."
     else
         echo "Python 3: $(python3 --version)"
     fi
-    
+
     # Check for smiffer
     if ! python3 -c "import volgrids.smiffer" &> /dev/null; then
         echo "Warning: smiffer module not found. Please install the volgrids package."
     else
         echo "Smiffer module: Available"
     fi
-    
+
     # Check for APBS (optional)
     if ! command -v apbs &> /dev/null; then
         echo "APBS: Not found (optional for electrostatic calculations)"
     else
         echo "APBS: $(apbs --version 2>&1 | head -1)"
+        rm -f "io.mc"
     fi
-    
+
     # Check for pdb2pqr (optional)
     if ! command -v pdb2pqr &> /dev/null; then
         echo "pdb2pqr: Not found (optional for APBS preparation)"
