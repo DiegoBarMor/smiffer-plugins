@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# ChimeraX Volgrid Usage Plugin Installer
+# ChimeraX SmifferTool Plugin Installer
 
 set -e
 
-echo "Installing ChimeraX Volgrid Usage Plugin..."
+echo "Installing ChimeraX SmifferTool Plugin..."
 
 # Check if we're in the correct directory
 if [ ! -f "bundle_info.xml" ]; then
@@ -12,17 +12,10 @@ if [ ! -f "bundle_info.xml" ]; then
     exit 1
 fi
 
-# Ensure volgrids-main is present
-if [ ! -d "volgrids-main" ]; then
-    echo "Error: volgrids-main directory not found. This directory is required for the plugin to work."
-    exit 1
-fi
-
-# Copy volgrids-main into src directory if not already there
-if [ ! -d "src/volgrids-main" ]; then
-    echo "Copying volgrids-main to src directory..."
-    cp -r volgrids-main src/
-fi
+# Downloads volgrids-main
+echo "Fetching volgrids-main..."
+git clone https://github.com/DiegoBarMor/volgrids.git
+mv volgrids src/volgrids-main
 
 # Build and install the plugin
 echo "Building plugin..."
@@ -33,3 +26,5 @@ chimerax --nogui --cmd "devel build .; toolshed install $path_dist; exit"
 path_installed=$(chimerax -c "import chimerax.smiffertool as sm; from pathlib import Path; print(Path(sm.__file__).parent)")
 
 echo "Plugin built successfully to $path_installed"
+
+rm -rf build/ dist/ ./*.egg-info/ src/volgrids-main/

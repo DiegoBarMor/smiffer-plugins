@@ -14,7 +14,7 @@ setup(
     description="Volumetric grid analysis tool for ChimeraX with Smiffer and APBS integration",
     author="Louis Meuret",
     author_email="contact@example.com",
-    url="https://github.com/DiegoBarMor/volgrids",
+    url="https://github.com/DiegoBarMor/smiffer-plugins",
     packages=find_packages("src"),
     package_dir={"": "src"},
     include_package_data=True,

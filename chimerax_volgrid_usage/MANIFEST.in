@@ -1,5 +1,3 @@
 include bundle_info.xml
-include README.md
-include LICENSE*
 recursive-include src *.py *.xml *.ini *.chem *.md *.txt *.yml *.sh
 recursive-include src/volgrids-main *

@@ -1,3 +1,0 @@
-
-[dev]
-ChimeraX-BundleBuilder>=1.0
