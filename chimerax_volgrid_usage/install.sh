@@ -29,6 +29,7 @@ echo "Building plugin..."
 python setup.py bdist_wheel
 
 echo "Plugin built successfully!"
-echo ""
-echo "In chimerax, use CD to go in the dist directory, and use the ChimeraX command line:"
-echo "toolshed install ."
+echo "To install the plugin, use the following command in the ChimeraX command line:"
+echo
+echo "cd $(pwd)/dist; toolshed install $(ls dist)"
+echo

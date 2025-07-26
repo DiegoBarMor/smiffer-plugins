@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# ChimeraX Volgrid Usage Plugin Uninstaller
+# ChimeraX SmifferTool Plugin Uninstaller
 
-echo "Uninstalling ChimeraX Volgrid Usage Plugin..."
+echo "Uninstalling ChimeraX SmifferTool Plugin..."
 
 # Clean build artifacts
 echo "Cleaning build artifacts..."
@@ -14,8 +14,8 @@ echo ""
 echo "To completely remove from ChimeraX:"
 echo "1. Open ChimeraX"
 echo "2. Go to Tools > More Tools"
-echo "3. Find 'Volgrid Usage' in the installed tools list"
+echo "3. Find 'SmifferTool' in the installed tools list"
 echo "4. Click 'Uninstall'"
 echo ""
 echo "Or use the ChimeraX command line:"
-echo "toolshed uninstall ChimeraX-VolgridUsage"
+echo "toolshed uninstall SmifferTool"
