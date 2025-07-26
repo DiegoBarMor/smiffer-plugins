@@ -9,7 +9,7 @@ if os.path.exists(requirements_path):
         install_requires = [line.strip() for line in f if line.strip() and not line.startswith('#')]
 
 setup(
-    name="ChimeraX-SmifferTool", 
+    name="ChimeraX-SmifferTool",
     version="1.0",
     description="Volumetric grid analysis tool for ChimeraX with Smiffer and APBS integration",
     author="Louis Meuret",
@@ -25,14 +25,14 @@ setup(
     },
     install_requires=install_requires,
     classifiers=[
-        "Development Status :: 4 - Beta", 
+        "Development Status :: 4 - Beta",
         "Intended Audience :: Science/Research",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
         "Topic :: Scientific/Engineering :: Chemistry",
         "Topic :: Scientific/Engineering :: Visualization",
     ],
-    python_requires=">=3.6",
+    python_requires=">=3.8",
     entry_points={
         "chimerax.bundles": [
             "chimerax.smiffertool = chimerax.smiffertool:bundle_api",

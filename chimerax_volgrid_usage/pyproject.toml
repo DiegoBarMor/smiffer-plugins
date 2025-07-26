@@ -16,9 +16,6 @@ dynamic = ["classifiers"]
 keywords = ["ChimeraX", "plugin", "orientation", "visualization"]
 urls = {Homepage = "https://example.com"}
 
-[project.optional-dependencies]
-dev = ["ChimeraX-BundleBuilder>=1.0"]
-
 [chimerax]
 pure = true
 min-session-ver = 1
@@ -27,7 +24,7 @@ custom-init = false
 categories = ["General"]
 classifiers = [
     "Development Status :: 4 - Beta",
-    "Intended Audience :: Science/Research", 
+    "Intended Audience :: Science/Research",
     "Programming Language :: Python :: 3",
     "Topic :: Scientific/Engineering :: Chemistry",
     "Topic :: Scientific/Engineering :: Visualization"

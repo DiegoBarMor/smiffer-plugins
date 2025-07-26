@@ -26,10 +26,10 @@ fi
 
 # Build and install the plugin
 echo "Building plugin..."
-python setup.py bdist_wheel
 
-echo "Plugin built successfully!"
-echo "To install the plugin, use the following command in the ChimeraX command line:"
-echo
-echo "cd $(pwd)/dist; toolshed install $(ls dist)"
-echo
+path_dist=./dist/chimerax_smiffertool-1.0-py3-none-any.whl # hardcoded for now
+chimerax --nogui --cmd "devel build .; toolshed install $path_dist; exit"
+
+path_installed=$(chimerax -c "import chimerax.smiffertool as sm; from pathlib import Path; print(Path(sm.__file__).parent)")
+
+echo "Plugin built successfully to $path_installed"
