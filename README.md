@@ -1,5 +1,32 @@
 # SMIFFer plugins
 
+## Installation
+### ChimeraX
+```
+cd chimerax_volgrid_usage
+./install.sh
+# ./uninstall.sh
+```
+
+### PyMOL
+```
+cd pymol_volgrid
+./install.sh
+# ./uninstall.sh
+```
+
+### VMD
+```
+cd vmd_volgrid
+./install.sh
+# ./uninstall.sh
+```
+
+
+## Usage
+...
+
+
 ## TODO
 ### General
 - test if the plugins are really handling correctly cases where the smiffer backend crashes
