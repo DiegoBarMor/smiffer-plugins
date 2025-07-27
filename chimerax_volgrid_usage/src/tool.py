@@ -405,6 +405,8 @@ class SmifferTool(ToolInstance):
         # Add config file
         if self.config_file_edit.text():
             cmd.extend(["-c", self.config_file_edit.text()])
+        else:
+            cmd.extend(["-c", os.path.join(os.path.dirname(__file__), "default_config.ini")])
 
         return cmd
 

@@ -82,6 +82,10 @@ echo "Installing to: $PLUGIN_DIR"
 cp pymol_smiffer_plugin.py "$PLUGIN_DIR/"
 rm -rf volgrids
 git clone https://github.com/DiegoBarMor/volgrids.git
+if command -v python3 &> /dev/null; then
+    echo "Installing volgrids dependencies..."
+    pip install -r volgrids/environment/requirements.txt
+fi
 mv volgrids "$PLUGIN_DIR/volgrids-main"
 cp __init__.py "$PLUGIN_DIR/"
 { echo "[VOLGRIDS]"; echo "OUTPUT_FORMAT=vg.GridFormat.MRC"; } > "$PLUGIN_DIR/default_config.ini"

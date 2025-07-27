@@ -30,6 +30,8 @@ chimerax --nogui --cmd "devel build .; toolshed install $path_dist; exit"
 
 path_installed=$(chimerax -c "import chimerax.smiffertool as sm; from pathlib import Path; print(Path(sm.__file__).parent)")
 
+{ echo "[VOLGRIDS]"; echo "OUTPUT_FORMAT=vg.GridFormat.CMAP_PACKED"; } > "$path_installed/default_config.ini"
+
 echo "Plugin built successfully to $path_installed"
 
 rm -rf build/ dist/ ./*.egg-info/ src/volgrids-main/
