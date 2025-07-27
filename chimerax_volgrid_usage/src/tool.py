@@ -32,6 +32,7 @@ class SmifferTool(ToolInstance):
 
         # Initialize smiffer paths
         self.smiffer_path = os.path.join(os.path.dirname(__file__), "volgrids-main", "run", "smiffer.py")
+        self.path_output_dir = None
         self.current_process = None
         self.worker_thread = None
 
@@ -225,7 +226,7 @@ class SmifferTool(ToolInstance):
         self.log_text = QTextEdit()
         self.log_text.setReadOnly(True)
         self.log_text.setMaximumHeight(150)
-        self.log_text.setStyleSheet("QTextEdit { background-color: #f5f5f5; font-family: monospace; }")
+        self.log_text.setStyleSheet("QTextEdit { color: #f5f5f5; background-color: #000000; font-family: monospace; }")
         log_layout.addWidget(self.log_text)
 
         # Add everything to main splitter
@@ -377,6 +378,9 @@ class SmifferTool(ToolInstance):
         # Add output directory
         if self.output_dir_edit.text():
             cmd.extend(["-o", self.output_dir_edit.text()])
+            self.path_output_dir = self.output_dir_edit.text()
+        else:
+            self.path_output_dir = os.path.dirname(self.input_file_edit.text())
 
         # Add trajectory
         if self.trajectory_edit.text():
@@ -477,8 +481,7 @@ class SmifferTool(ToolInstance):
             # Build command
             cmd = self.build_smiffer_command()
 
-            list_of_files = os.listdir(self.output_dir_edit.text())
-            #print(f"list_of_files = {list_of_files}")
+            list_of_files = os.listdir(self.path_output_dir)
             self.first_files_folder = list_of_files
 
             # Set working directory

@@ -65,9 +65,16 @@ install_plugin() {
         fi
     done
 
+    rm -rf volgrids
     git clone https://github.com/DiegoBarMor/volgrids.git
+    if command -v python3 &> /dev/null; then
+        echo "Installing volgrids dependencies..."
+        pip install -r volgrids/environment/requirements.txt
+    fi
+
+    { echo "[VOLGRIDS]"; echo "OUTPUT_FORMAT=vg.GridFormat.MRC"; } > "$plugin_dir/default_config.ini"
     mv volgrids "$plugin_dir/volgrids-main"
-    echo "Moved volgrids-main directory"
+    echo "Moved volgrids-main directory to $plugin_dir"
 
     # Configure VMD startup script
     configure_vmdrc "$plugin_dir"
@@ -149,18 +156,11 @@ check_dependencies() {
         echo "Python 3: $(python3 --version)"
     fi
 
-    # Check for smiffer
-    if ! python3 -c "import volgrids.smiffer" &> /dev/null; then
-        echo "Warning: smiffer module not found. Please install the volgrids package."
-    else
-        echo "Smiffer module: Available"
-    fi
-
     # Check for APBS (optional)
     if ! command -v apbs &> /dev/null; then
         echo "APBS: Not found (optional for electrostatic calculations)"
     else
-        echo "APBS: $(apbs --version 2>&1 | head -1)"
+        echo "APBS: $(timeout 0.1 apbs --version 2>&1 | head -1)"
         rm -f "io.mc"
     fi
 

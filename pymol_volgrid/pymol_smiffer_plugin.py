@@ -67,6 +67,7 @@ class SmifferDialog(QtWidgets.QDialog):
         super().__init__()
         self.plugin = plugin
         self.current_process = None
+        self.path_output_dir = None
         self.worker_thread = None
         self.setup_ui()
 
@@ -306,7 +307,7 @@ class SmifferDialog(QtWidgets.QDialog):
         self.log_text = QtWidgets.QTextEdit()
         self.log_text.setReadOnly(True)
         self.log_text.setMaximumHeight(150)
-        self.log_text.setStyleSheet("QTextEdit { background-color: #f5f5f5; font-family: monospace; }")
+        self.log_text.setStyleSheet("QTextEdit { color: #f5f5f5; background-color: #000000; font-family: monospace; }")
         log_layout.addWidget(self.log_text)
 
         layout.addWidget(log_group)
@@ -462,6 +463,9 @@ class SmifferDialog(QtWidgets.QDialog):
         # Add output directory
         if self.output_dir_edit.text():
             cmd_list.extend(["-o", self.output_dir_edit.text()])
+            self.path_output_dir = self.output_dir_edit.text()
+        else:
+            self.path_output_dir = os.path.dirname(self.input_file_edit.text())
 
         # Add trajectory
         if self.trajectory_edit.text():
@@ -486,6 +490,8 @@ class SmifferDialog(QtWidgets.QDialog):
         # Add config file
         if self.config_file_edit.text():
             cmd_list.extend(["-c", self.config_file_edit.text()])
+        else:
+            cmd_list.extend(["-c", os.path.join(os.path.dirname(__file__), "default_config.ini")])
 
         return cmd_list
 
@@ -500,12 +506,12 @@ class SmifferDialog(QtWidgets.QDialog):
             if not os.path.exists(self.input_file_edit.text()):
                 QtWidgets.QMessageBox.warning(self, "Error", "Input structure file does not exist")
                 return
-            list_of_files = os.listdir(self.output_dir_edit.text())
-            #print(f"list_of_files = {list_of_files}")
-            self.first_files_folder = list_of_files
-            #print(f"Output folder = {self.first_files_folder}")
+
             # Build command
             cmd_list = self.build_smiffer_command()
+
+            list_of_files = os.listdir(self.path_output_dir)
+            self.first_files_folder = list_of_files
 
             # Set working directory
             working_dir = os.path.dirname(self.plugin.smiffer_path) if self.plugin.smiffer_path else os.getcwd()

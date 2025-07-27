@@ -14,7 +14,12 @@ fi
 
 # Downloads volgrids-main
 echo "Fetching volgrids-main..."
+rm -rf volgrids
 git clone https://github.com/DiegoBarMor/volgrids.git
+if command -v python3 &> /dev/null; then
+    echo "Installing volgrids dependencies..."
+    pip install -r volgrids/environment/requirements.txt
+fi
 mv volgrids src/volgrids-main
 
 # Build and install the plugin

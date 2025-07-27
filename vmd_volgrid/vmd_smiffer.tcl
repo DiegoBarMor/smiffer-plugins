@@ -707,6 +707,7 @@ proc ::smiffer::toggle_pocket_sphere_simple {} {
 
 # Build smiffer command
 proc ::smiffer::build_smiffer_command {} {
+    variable script_dir
     variable smiffer_path
     variable input_file
     variable output_dir
@@ -762,6 +763,9 @@ proc ::smiffer::build_smiffer_command {} {
     # Add config file (ensure full path)
     if {$config_file ne ""} {
         lappend cmd "-c" [file normalize $config_file]
+    } else {
+        # Default config file if not specified
+        lappend cmd "-c" [file normalize [file join $script_dir "default_config.ini"]]
     }
 
     return $cmd
