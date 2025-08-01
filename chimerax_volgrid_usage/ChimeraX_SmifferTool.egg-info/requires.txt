@@ -1,0 +1,7 @@
+numpy>=2.3.0
+scipy>=1.15.0
+matplotlib>=3.10.0
+MDAnalysis>=2.9.0
+h5py>=3.14.0
+GridDataFormats>=1.0.2
+tqdm>=4.67.0

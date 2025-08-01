@@ -1,3 +1,2 @@
 include bundle_info.xml
-recursive-include src *.py *.xml *.ini *.chem *.md *.txt *.yml *.sh
-recursive-include src/volgrids-main *
+recursive-include src *.py *.ini *.chem *.md *.txt *.yml *.sh

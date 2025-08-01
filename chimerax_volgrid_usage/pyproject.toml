@@ -10,9 +10,18 @@ authors = [
 ]
 description = "MIF creation and visualisation tool for ChimeraX"
 readme = "README.md"
-license = {text = "MIT"}
 requires-python = ">=3.8"
-dynamic = ["classifiers"]
+license = {text = "MIT"}
+dependencies = [
+    "numpy>=2.3.0",
+    "scipy>=1.15.0",
+    "matplotlib>=3.10.0",
+    "MDAnalysis>=2.9.0",
+    "h5py>=3.14.0",
+    "GridDataFormats>=1.0.2",
+    "tqdm>=4.67.0"
+]
+dynamic = ["classifiers", "entry-points"]
 keywords = ["ChimeraX", "plugin", "orientation", "visualization"]
 urls = {Homepage = "https://example.com"}
 

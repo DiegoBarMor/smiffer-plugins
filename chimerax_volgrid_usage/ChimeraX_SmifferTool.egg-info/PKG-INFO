@@ -1,0 +1,41 @@
+Metadata-Version: 2.4
+Name: ChimeraX-SmifferTool
+Version: 1.0
+Summary: MIF creation and visualisation tool for ChimeraX
+Home-page: https://github.com/DiegoBarMor/smiffer-plugins
+Author: ChimeraX SmifferTool Plugin
+Author-email: Louis Meuret <your.email@example.com>
+License: MIT
+Project-URL: Homepage, https://example.com
+Keywords: ChimeraX,plugin,orientation,visualization
+Classifier: Framework :: ChimeraX
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Scientific/Engineering :: Visualization
+Classifier: Topic :: Scientific/Engineering :: Chemistry
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Classifier: Environment :: MacOS X :: Aqua
+Classifier: Environment :: Win32 (MS Windows)
+Classifier: Environment :: X11 Applications
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows :: Windows 10
+Classifier: Operating System :: POSIX :: Linux
+Classifier: ChimeraX :: Bundle :: General :: 1,1 :: chimerax.smiffertool ::  :: 
+Classifier: ChimeraX :: Tool :: SmifferTool ::
+      General :: Volumetric grid analysis with Smiffer and APBS integration
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: numpy>=2.3.0
+Requires-Dist: scipy>=1.15.0
+Requires-Dist: matplotlib>=3.10.0
+Requires-Dist: MDAnalysis>=2.9.0
+Requires-Dist: h5py>=3.14.0
+Requires-Dist: GridDataFormats>=1.0.2
+Requires-Dist: tqdm>=4.67.0
+Dynamic: author
+Dynamic: classifier
+Dynamic: home-page
+Dynamic: requires-python
+
+Readme needed
+chimerax --nogui --cmd "devel install ."
