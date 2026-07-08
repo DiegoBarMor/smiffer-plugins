@@ -126,6 +126,30 @@ def _localized_proximity_mask(shape, idx_a, idx_b, voxel_size_xyz, cutoff):
     return mask
 
 
+def _triple_pocket_mask(shape, comp_s, comp_h, comp_a, voxel_size_xyz):
+    """Triple overlap of stacking/hydrophobic/apbs components, or their union
+    if no voxel overlaps -- but only when every pair is either overlapping or
+    within CLOSE_DISTANCE_A of each other. Unlike the pairwise case, there is
+    no proximity-restricted fallback mask: a genuine three-field pocket
+    requires all three hotspots to actually be near one another, not just a
+    union of whatever components happened to be picked."""
+    tri_mask = (_component_mask(shape, comp_s["indices"]) &
+                _component_mask(shape, comp_h["indices"]) &
+                _component_mask(shape, comp_a["indices"]))
+    if np.any(tri_mask):
+        return tri_mask
+
+    for comp_x, comp_y in ((comp_s, comp_h), (comp_s, comp_a), (comp_h, comp_a)):
+        ov_nvox, _ = _overlap_voxels(shape, comp_x["indices"], comp_y["indices"])
+        if ov_nvox > 0:
+            continue
+        dist = _min_distance(comp_x["indices"], comp_y["indices"], voxel_size_xyz)
+        if _distance_bonus(dist) is None:
+            return None
+
+    return _union_mask(shape, [comp_s, comp_h, comp_a])
+
+
 def _pair_pocket_mask(shape, comp_a, comp_b, voxel_size_xyz):
     ov_nvox, ov_mask = _overlap_voxels(shape, comp_a["indices"], comp_b["indices"])
     if ov_nvox > 0:
@@ -237,10 +261,9 @@ def build_candidate_pockets(field_data: dict, isovalues: dict, atom_xyz) -> list
     for s in stk_comps:
         for h in hyd_comps:
             for a in apbs_comps:
-                tri_mask = (_component_mask(shape, s["indices"]) &
-                            _component_mask(shape, h["indices"]) &
-                            _component_mask(shape, a["indices"]))
-                mask = tri_mask if np.any(tri_mask) else _union_mask(shape, [s, h, a])
+                mask = _triple_pocket_mask(shape, s, h, a, voxel_size_xyz)
+                if mask is None:
+                    continue
                 pocket = _summarize_pocket(mask, "mixed_fields", *args)
                 if pocket is None or pocket["real_buriedness"] < config.REAL_BURIEDNESS_MIN:
                     continue
@@ -260,9 +283,10 @@ def build_candidate_pockets(field_data: dict, isovalues: dict, atom_xyz) -> list
     if best_sh is not None:
         pockets.append(best_sh)
 
-    if apbs_comps:
-        pocket = _summarize_pocket(_union_mask(shape, apbs_comps), "electrostatic", *args)
-        if pocket is not None:
-            pockets.append(pocket)
+    # A pure "all apbs hotspots" pocket is deliberately not produced here: the
+    # electrostatic field is diffuse enough that its threshold-connected
+    # components routinely span the whole structure, which would spuriously
+    # bridge otherwise-separate pockets together during merging in
+    # unique_pockets.py.
 
     return pockets
