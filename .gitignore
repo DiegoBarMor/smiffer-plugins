@@ -2,3 +2,5 @@ desktop.ini
 __pycache__/
 .vscode/
 **/.claude/
+
+demo_spocker/testdata/
