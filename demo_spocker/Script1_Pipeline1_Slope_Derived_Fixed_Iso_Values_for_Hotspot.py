@@ -7,8 +7,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.signal import savgol_filter, find_peaks
 
-BASE = Path("/media/gio/56213b82-677d-4b69-981e-68022f1e4bcc/raju/SMIFs_Analysis_All_PDBs/Analysis_all_RNAs")
-
 plt.rcParams["font.family"] = "Times New Roman"
 plt.rcParams["font.size"] = 13
 plt.rcParams["axes.linewidth"] = 1.2
@@ -54,9 +52,9 @@ def parse_name(path):
     pdb = m.group(1)
     raw_field = m.group(2).lower()
 
-    if "stacking" in raw_field:
+    if "stk" in raw_field:
         field = "stacking"
-    elif "hydrophobic" in raw_field:
+    elif "hphob" in raw_field:
         field = "hydrophobic"
     elif (
         raw_field == "apbs" or
@@ -71,8 +69,8 @@ def parse_name(path):
             "electrostatic": "apbs",
             "ele": "apbs",
             "apbs": "apbs",
-            "stacking": "stacking",
-            "hydrophobic": "hydrophobic",
+            "stk": "stacking",
+            "hphob": "hydrophobic",
         }
         field = aliases.get(raw_field)
 
@@ -369,14 +367,19 @@ def analyze_field(values, field, apbs_path=None):
     }
 
 
-pdb_dirs = sorted([p for p in BASE.iterdir() if p.is_dir()])
+def main():
+    summary_rows = []
+    iso_rows = []
 
-summary_rows = []
-iso_rows = []
+    dir_pdb = Path("demo_spocker/testdata/smifs")
+    dir_analysis = Path("demo_spocker/testdata/analysis")
+    dir_analysis.mkdir(parents=True, exist_ok=True)
 
-for pdb_dir in pdb_dirs:
-    pdb = pdb_dir.name
-    all_mrc = sorted(pdb_dir.glob("*.mrc"))
+    all_mrc = sorted(dir_pdb.glob("*.mrc"))
+    if not all_mrc:
+        raise RuntimeError(f"No .mrc files found in {dir_pdb.resolve()}")
+
+    pdb = all_mrc[0].stem.split('.')[0]
 
     files = {}
     for f in all_mrc:
@@ -389,7 +392,7 @@ for pdb_dir in pdb_dirs:
             files[field] = f
 
     if not files:
-        continue
+        raise RuntimeError(f"No valid .mrc files found for PDB {pdb} in {dir_pdb.resolve()}")
 
     fig, axes = plt.subplots(3, 2, figsize=(14, 15))
     axes = axes.flatten()
@@ -490,7 +493,7 @@ for pdb_dir in pdb_dirs:
             ax.legend(fontsize=9)
 
     fig.tight_layout()
-    fig.savefig(pdb_dir / f"{pdb}_stk_hp_ele_analysis.png", dpi=300, bbox_inches="tight")
+    fig.savefig(dir_analysis / f"{pdb}_stk_hp_ele_analysis.png", dpi=300, bbox_inches="tight")
     plt.close(fig)
 
     for field in FIELDS:
@@ -525,19 +528,15 @@ for pdb_dir in pdb_dirs:
     per_pdb_summary_rows = [r for r in summary_rows if r["pdb"] == pdb]
     if per_pdb_summary_rows:
         pd.DataFrame(per_pdb_summary_rows).sort_values(["pdb", "field"]).to_csv(
-            pdb_dir / f"{pdb}_stk_hp_ele_distribution_summary.csv",
+            dir_analysis / f"{pdb}_stk_hp_ele_distribution_summary.csv",
             index=False
         )
 
     pd.DataFrame([selected]).to_csv(
-        pdb_dir / f"{pdb}_stk_hp_ele_selected_isovalues.csv",
+        dir_analysis / f"{pdb}_stk_hp_ele_selected_isovalues.csv",
         index=False
     )
 
-if summary_rows:
-    summary_df = pd.DataFrame(summary_rows).sort_values(["pdb", "field"])
-    summary_df.to_csv(BASE / "stk_hp_ele_distribution_summary_all_pdbs.csv", index=False)
 
-if iso_rows:
-    iso_df = pd.DataFrame(iso_rows).sort_values("pdb")
-    iso_df.to_csv(BASE / "stk_hp_ele_selected_isovalues_all_pdbs.csv", index=False)
+if __name__ == "__main__":
+    main()
