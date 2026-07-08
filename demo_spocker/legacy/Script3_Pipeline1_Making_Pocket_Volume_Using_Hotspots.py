@@ -15,8 +15,9 @@ except ImportError:
 # ─────────────────────────────────────────────────────────────────────────────
 # INPUT / OUTPUT
 # ─────────────────────────────────────────────────────────────────────────────
-BASE     = Path("/media/gio/56213b82-677d-4b69-981e-68022f1e4bcc/raju/SMIFs_Analysis_All_PDBs/Analysis_all_RNAs")
-PDB_BASE = Path("/media/gio/56213b82-677d-4b69-981e-68022f1e4bcc/raju/SMIFs_Analysis_All_PDBs/PDBs")
+_ROOT    = Path(__file__).resolve().parents[1] / "testdata" / "legacy_work"
+BASE     = _ROOT / "Analysis_all_RNAs"
+PDB_BASE = _ROOT / "PDBs"
 
 POCKET_SPECS = [
     {

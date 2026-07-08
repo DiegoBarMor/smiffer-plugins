@@ -16,6 +16,7 @@ Outputs written to the same per-PDB folder:
 """
 
 import os
+from pathlib import Path
 import numpy as np
 import mrcfile
 from scipy.ndimage import label, binary_dilation
@@ -28,7 +29,7 @@ from scipy.interpolate import RegularGridInterpolator
 # Root directory containing one sub-folder per PDB.
 # Inputs are read FROM  <BASE_DIR>/<name>/
 # Outputs are written TO <BASE_DIR>/<name>/   (same folder — no separate OUT_DIR)
-BASE_DIR = "/media/gio/56213b82-677d-4b69-981e-68022f1e4bcc/raju/SMIFs_Analysis_All_PDBs/HBond_Fields_Nonstandard_Bases"
+BASE_DIR = str(Path(__file__).resolve().parents[1] / "testdata" / "legacy_work" / "HBond_Fields_Nonstandard_Bases")
 
 # ── ELE isovalue ──────────────────────────────────────────────────────────────
 ELE_CONSTANT = -2.0

@@ -17,4 +17,6 @@ Identifies RNA binding pockets from a PDB structure, using
   `pipeline/config.py` for its tunable parameters.
 
 `legacy/` holds the original, single-use scripts `pipeline/` replaces; see
-`legacy/README.md`.
+`legacy/README.md`. To compare their output against `1_run_pipeline.py` on
+the same structure, run:
+`bash demo_spocker/run_pipeline_legacy.sh <input.pdb> <output_dir>`

@@ -4,7 +4,7 @@ Generic APBS trimming around all RNA heavy atoms
 ===============================================
 
 For each PDB directory inside:
-    /media/gio/56213b82-677d-4b69-981e-68022f1e4bcc/raju/SMIFs_Analysis_All_PDBs/Analysis_all_RNAs/<PDB_ID>/
+    <repo>/demo_spocker/testdata/legacy_work/Analysis_all_RNAs/<PDB_ID>/
 
 the script finds:
     <PDB_ID>.apbs.mrc
@@ -33,8 +33,9 @@ warnings.filterwarnings("ignore", category=RuntimeWarning)
 # =============================================================================
 # PATHS
 # =============================================================================
-ANALYSIS_DIR = Path("/media/gio/56213b82-677d-4b69-981e-68022f1e4bcc/raju/SMIFs_Analysis_All_PDBs/Analysis_all_RNAs")
-PDB_DIR      = Path("/media/gio/56213b82-677d-4b69-981e-68022f1e4bcc/raju/SMIFs_Analysis_All_PDBs/PDBs")
+_ROOT        = Path(__file__).resolve().parents[1] / "testdata" / "legacy_work"
+ANALYSIS_DIR = _ROOT / "Analysis_all_RNAs"
+PDB_DIR      = _ROOT / "PDBs"
 
 # =============================================================================
 # PARAMETERS

@@ -7,7 +7,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.signal import savgol_filter, find_peaks
 
-BASE = Path("/media/gio/56213b82-677d-4b69-981e-68022f1e4bcc/raju/SMIFs_Analysis_All_PDBs/Analysis_all_RNAs")
+BASE = Path(__file__).resolve().parents[1] / "testdata" / "legacy_work" / "Analysis_all_RNAs"
 
 plt.rcParams["font.family"] = "Times New Roman"
 plt.rcParams["font.size"] = 13

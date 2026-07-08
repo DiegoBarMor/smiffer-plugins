@@ -111,7 +111,7 @@ matplotlib.rcParams["mathtext.bf"]      = "Times New Roman:bold"
 # -------------------------------------------------
 # PATHS
 # -------------------------------------------------
-BASE_DIR      = Path("/media/gio/56213b82-677d-4b69-981e-68022f1e4bcc/raju/SMIFs_Analysis_All_PDBs")
+BASE_DIR      = Path(__file__).resolve().parents[1] / "testdata" / "legacy_work"
 ANALYSIS_BASE = BASE_DIR / "Analysis_all_RNAs"
 HBOND_BASE    = BASE_DIR / "HBond_Fields_Nonstandard_Bases"
 PDB_DIR       = BASE_DIR / "PDBs"

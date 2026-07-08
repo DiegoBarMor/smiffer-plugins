@@ -9,6 +9,7 @@
 """
 
 import os
+from pathlib import Path
 import numpy as np
 import mrcfile
 from scipy.ndimage import label
@@ -18,11 +19,13 @@ from scipy.ndimage import label
 # CONFIGURATION
 # ─────────────────────────────────────────────────────────────────────────────
 
+_ROOT = Path(__file__).resolve().parents[1] / "testdata" / "legacy_work"
+
 # Root directory containing one sub-folder per PDB (MRC files + outputs).
-BASE_DIR = "/media/gio/56213b82-677d-4b69-981e-68022f1e4bcc/raju/SMIFs_Analysis_All_PDBs/HBond_Fields_Nonstandard_Bases"
+BASE_DIR = str(_ROOT / "HBond_Fields_Nonstandard_Bases")
 
 # Flat directory where all PDB files live as <name>.pdb
-PDB_DIR  = "/media/gio/56213b82-677d-4b69-981e-68022f1e4bcc/raju/SMIFs_Analysis_All_PDBs/PDBs"
+PDB_DIR  = str(_ROOT / "PDBs")
 
 # Radius of the imaginary seed sphere drawn around the binding-site centre (Å)
 SEED_SPHERE_RADIUS_A = 8.0

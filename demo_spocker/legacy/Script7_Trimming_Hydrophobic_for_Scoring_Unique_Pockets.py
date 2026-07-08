@@ -4,7 +4,7 @@ Hydrophobic field trimming by removing overlap with stacking field
 =================================================================
 
 For each PDB directory inside:
-    /media/gio/56213b82-677d-4b69-981e-68022f1e4bcc/raju/SMIFs_Analysis_All_PDBs/Analysis_all_RNAs/<PDB_ID>/
+    <repo>/demo_spocker/testdata/legacy_work/Analysis_all_RNAs/<PDB_ID>/
 
 the script finds:
     <PDB_ID>.hydrophobic.mrc
@@ -29,7 +29,7 @@ warnings.filterwarnings("ignore", category=RuntimeWarning)
 # =============================================================================
 # PATHS
 # =============================================================================
-ANALYSIS_DIR = Path("/media/gio/56213b82-677d-4b69-981e-68022f1e4bcc/raju/SMIFs_Analysis_All_PDBs/Analysis_all_RNAs")
+ANALYSIS_DIR = Path(__file__).resolve().parents[1] / "testdata" / "legacy_work" / "Analysis_all_RNAs"
 
 # =============================================================================
 # PARAMETERS
