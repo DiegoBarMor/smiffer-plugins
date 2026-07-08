@@ -9,3 +9,4 @@ fi
 PDB=1AJU # [WIP] hardcoded example to match testdata's expected output
 
 bash demo_spocker/0_prepare_input.sh $PDB
+bash demo_spocker/1_gen_smifs.sh $PDB

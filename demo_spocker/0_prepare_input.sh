@@ -3,12 +3,12 @@ set -euo pipefail
 
 PDB=$1
 
-fdata=demo_spocker/testdata/input
-path_pdb_0="$fdata/$PDB.raw.pdb"
-path_pdb_1="$fdata/$PDB.fixed.pdb"
-path_pdb_2="$fdata/$PDB.nucl.pdb"
+dir_input=demo_spocker/testdata/input
+path_pdb_0="$dir_input/$PDB.raw.pdb"
+path_pdb_1="$dir_input/$PDB.fixed.pdb"
+path_pdb_2="$dir_input/$PDB.nucl.pdb"
 
-mkdir -p "$fdata"
+mkdir -p "$dir_input"
 
 #### PART 0: Download the raw file
 if [ ! -f "$path_pdb_0" ]; then
@@ -30,3 +30,6 @@ if [ ! -f "$path_pdb_2" ]; then
     echo ">>> Ensuring $path_pdb_1 only contains nucleic residues"
     molutils select "nucleic" "$path_pdb_1" "$path_pdb_2"
 fi
+
+### [WIP] keeping this intermediary files for now, but the only file needed is this last one
+cp "$path_pdb_2" "$dir_input/$PDB.pdb"
